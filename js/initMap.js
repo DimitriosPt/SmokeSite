@@ -4,7 +4,7 @@ function initMap() {
     map = new google.maps.Map(document.getElementById('map'), {
         //this is an arbitrary center in SF just to initialize the map
         center: {lat: 37.77, lng: -122.42},
-        zoom: 12
+        zoom: 10
     });
     infoWindow = new google.maps.InfoWindow;
 
@@ -14,11 +14,13 @@ function initMap() {
                 lat: position.coords.latitude,
                 lng: position.coords.longitude
             };
-
+/*
             infoWindow.setPosition(pos);
             infoWindow.setContent('Your Location');
             infoWindow.open(map);
+            */
             map.setCenter(pos);
+
         }, function () {
             handleLocationError(true, infoWindow, map.getCenter());
         });
