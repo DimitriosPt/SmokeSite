@@ -42,7 +42,7 @@ const userAction = async () => {
         const myJson = await response.json(); //extract JSON from the http response
 
         console.log(myJson);
-        $("#state").text(myJson.data.city);
+
         $("#AQI").text(myJson.data.current.pollution.aqius);
 
         let airVisualSensorCoords = {
@@ -65,8 +65,12 @@ function geocodeLatLng(geocoder, mapToUse, infowindow, latlng)
                     position: latlng,
                     map: map
                 });
-                infowindow.setContent("Your Location: "+ results[0].formatted_address);
+                infowindow.setContent("Your Location: "+ results[6].formatted_address);
                 infowindow.open(map, marker);
+                console.log(results[3].formatted_address);
+                let locationResults = results[6].formatted_address;
+                let city = (locationResults.split(','))[0];
+                $("#state").text(city);
                 console.log(results);
             } else {
                 window.alert('No results found');
