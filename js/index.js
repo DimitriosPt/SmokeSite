@@ -31,6 +31,12 @@ const userAction = async () => {
                 lat: position.coords.latitude,
                 lng: position.coords.longitude
             };
+
+
+            let geocoder = new google.maps.Geocoder();
+            let geoInfoWindow = new google.maps.InfoWindow;
+
+            geocodeLatLng(geocoder, map, geoInfoWindow, pos);
         });
         const response = await fetch(apiLatLngCall);
         const myJson = await response.json(); //extract JSON from the http response
@@ -44,9 +50,33 @@ const userAction = async () => {
             lng: myJson.data.location.coordinates[0]
         };
         setAirVisual_InfoWindow(airVisualSensorCoords)
+
+
     }
 };
 
+function geocodeLatLng(geocoder, mapToUse, infowindow, latlng)
+{
+    geocoder.geocode({'location': latlng}, function(results, status) {
+        if (status === 'OK') {
+            if (results[0]) {
+                map.setZoom(11);
+                let marker = new google.maps.Marker({
+                    position: latlng,
+                    map: map
+                });
+                infowindow.setContent("Your Location: "+ results[0].formatted_address);
+                infowindow.open(map, marker);
+                console.log(results);
+            } else {
+                window.alert('No results found');
+            }
+        } else {
+            window.alert('Geocoder failed due to: ' + status);
+        }
+    });
+
+}
 
 button.addEventListener("click", userAction);
 
