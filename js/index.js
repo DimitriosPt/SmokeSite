@@ -11,8 +11,7 @@ button.appendChild(t);
 
 document.body.appendChild(button);
 
-function setAirVisual_InfoWindow(coordinates)
-{
+function setAirVisual_InfoWindow(coordinates) {
     let nearestSensorWindow = new google.maps.InfoWindow({
         content: "Nearest AirVisual Sensor",
         position: coordinates
@@ -44,6 +43,9 @@ const userAction = async () => {
         console.log(myJson);
 
         $("#AQI").text(myJson.data.current.pollution.aqius);
+        $("#windSpeed").text(myJson.data.current.weather.ws + " mph");
+        let windCardinalDirection = setWindDirection(myJson);
+        $("#windDirection").text(myJson.data.current.weather.wd);
 
         let airVisualSensorCoords = {
             lat: myJson.data.location.coordinates[1],
@@ -55,9 +57,60 @@ const userAction = async () => {
     }
 };
 
-function geocodeLatLng(geocoder, mapToUse, infowindow, latlng)
+function setWindDirection(someJSON)
 {
-    geocoder.geocode({'location': latlng}, function(results, status) {
+    console.log("WindDirection function called");
+    console.log("Wind direction is: " + someJSON.data.current.weather.wd);
+
+    let windAngle = someJSON.data.current.weather.wd;
+    let windCardinalDirection = null;
+    //this seems verbose, perhaps an enum can be used here?
+    if (windAngle <= 15 || windAngle >= 345)
+    {
+        windCardinalDirection = "N";
+    }
+
+    if (15 < windAngle && windAngle < 85)
+    {
+        windCardinalDirection = "NE";
+    }
+
+    if (85 <= windAngle && windAngle <= 105)
+    {
+        windCardinalDirection = "E"
+    }
+
+    if (105 < windAngle && windAngle < 165)
+    {
+        windCardinalDirection = "SE"
+    }
+
+    if (165 <= windAngle && windAngle <= 195)
+    {
+        windCardinalDirection = "S"
+    }
+
+    if (195 < windAngle && windAngle < 255)
+    {
+        windCardinalDirection = "SW"
+    }
+
+    if (255 <= windAngle && windAngle <= 285)
+    {
+        windCardinalDirection = "W"
+    }
+
+    if (285 < windAngle && windAngle < 345)
+    {
+        windCardinalDirection = "NW"
+    }
+
+    console.log("Wind cardinal is: " + windCardinalDirection);
+
+    return windCardinalDirection;
+}
+function geocodeLatLng(geocoder, mapToUse, infowindow, latlng) {
+    geocoder.geocode({'location': latlng}, function (results, status) {
         if (status === 'OK') {
             if (results[0]) {
                 map.setZoom(11);
@@ -65,7 +118,7 @@ function geocodeLatLng(geocoder, mapToUse, infowindow, latlng)
                     position: latlng,
                     map: map
                 });
-                infowindow.setContent("Your Location: "+ results[6].formatted_address);
+                infowindow.setContent("Your Location: " + results[6].formatted_address);
                 infowindow.open(map, marker);
                 console.log(results[3].formatted_address);
                 let locationResults = results[6].formatted_address;

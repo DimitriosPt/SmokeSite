@@ -16,17 +16,24 @@
 You live in <span id="state"></span>!
 <br>
 
-The Air Quality where you live is <span id="AQI"></span>
+The Air Quality Index at the sensor nearest to you is:  <span id="AQI"></span>
 <script src="js/index.js" type="text/javascript"></script>
 
-<h2> The Map Will Go Here</h2>
+<h2> The Map </h2>
 <div id="map"></div>
+<div id="additionalInfo">
+    <h3>Additional Info: </h3> <br>
+    Wind Speed: <span id="windSpeed"></span>
+    <br>
+    Wind Direction: <span id=windDirection"></span>
+
+</div>
 <script src="js/initMap.js" type="text/javascript"></script>
 
 <script async defer
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD-jtJ1UZMqRwqqNMks1Xh4FLu4CmGx8aY&callback=initMap">
 </script>
 <span id="AirVisualJSON"></span>
-Throw some text down here
+
 </body>
 </html>
