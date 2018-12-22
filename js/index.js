@@ -44,8 +44,9 @@ const userAction = async () => {
 
         $("#AQI").text(myJson.data.current.pollution.aqius);
         $("#windSpeed").text(myJson.data.current.weather.ws + " mph");
-        let windCardinalDirection = setWindDirection(myJson);
-        $("#windDirection").text(myJson.data.current.weather.wd);
+       // let windCardinalDirection = setWindDirection(myJson);
+        //console.log("before assignment, wind card =: " + windCardinalDirection);
+        $("#windDirection").text(setWindDirection(myJson));
 
         let airVisualSensorCoords = {
             lat: myJson.data.location.coordinates[1],
