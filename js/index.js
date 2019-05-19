@@ -18,10 +18,16 @@ function setAirVisual_InfoWindow(coordinates) {
     });
 
     nearestSensorWindow.open(map);
-
 }
 
 const userAction = async () => {
+    let IPcall = 'api.airvisual.com/v2/nearest_station?key={83yc73pHs93hEpSyo}';
+
+    const ipResponse = await fetch(IPcall);
+    const ipJSON = await ipResponse.json();
+
+    console.log(ipJSON);
+
     let apiLatLngCall = '/api/visualair/${latitude}/${longitude}';
 
     if (navigator.geolocation) {
@@ -37,6 +43,7 @@ const userAction = async () => {
 
             geocodeLatLng(geocoder, map, geoInfoWindow, pos);
         });
+
         const response = await fetch(apiLatLngCall);
         const myJson = await response.json(); //extract JSON from the http response
 
@@ -44,7 +51,7 @@ const userAction = async () => {
 
         $("#AQI").text(myJson.data.current.pollution.aqius);
         $("#windSpeed").text(myJson.data.current.weather.ws + " mph");
-       // let windCardinalDirection = setWindDirection(myJson);
+        // let windCardinalDirection = setWindDirection(myJson);
         //console.log("before assignment, wind card =: " + windCardinalDirection);
         $("#windDirection").text(setWindDirection(myJson));
 
@@ -53,56 +60,45 @@ const userAction = async () => {
             lng: myJson.data.location.coordinates[0]
         };
         setAirVisual_InfoWindow(airVisualSensorCoords)
-
-
     }
 };
 
-function setWindDirection(someJSON)
-{
+function setWindDirection(someJSON) {
     console.log("WindDirection function called");
     console.log("Wind direction is: " + someJSON.data.current.weather.wd);
 
     let windAngle = someJSON.data.current.weather.wd;
     let windCardinalDirection = null;
     //this seems verbose, perhaps an enum can be used here?
-    if (windAngle <= 15 || windAngle >= 345)
-    {
+    if (windAngle <= 15 || windAngle >= 345) {
         windCardinalDirection = "N";
     }
 
-    if (15 < windAngle && windAngle < 85)
-    {
+    if (15 < windAngle && windAngle < 85) {
         windCardinalDirection = "NE";
     }
 
-    if (85 <= windAngle && windAngle <= 105)
-    {
+    if (85 <= windAngle && windAngle <= 105) {
         windCardinalDirection = "E"
     }
 
-    if (105 < windAngle && windAngle < 165)
-    {
+    if (105 < windAngle && windAngle < 165) {
         windCardinalDirection = "SE"
     }
 
-    if (165 <= windAngle && windAngle <= 195)
-    {
+    if (165 <= windAngle && windAngle <= 195) {
         windCardinalDirection = "S"
     }
 
-    if (195 < windAngle && windAngle < 255)
-    {
+    if (195 < windAngle && windAngle < 255) {
         windCardinalDirection = "SW"
     }
 
-    if (255 <= windAngle && windAngle <= 285)
-    {
+    if (255 <= windAngle && windAngle <= 285) {
         windCardinalDirection = "W"
     }
 
-    if (285 < windAngle && windAngle < 345)
-    {
+    if (285 < windAngle && windAngle < 345) {
         windCardinalDirection = "NW"
     }
 
@@ -110,6 +106,7 @@ function setWindDirection(someJSON)
 
     return windCardinalDirection;
 }
+
 function geocodeLatLng(geocoder, mapToUse, infowindow, latlng) {
     geocoder.geocode({'location': latlng}, function (results, status) {
         if (status === 'OK') {

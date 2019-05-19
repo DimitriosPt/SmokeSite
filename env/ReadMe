@@ -1,0 +1,13 @@
+To activate the virtual env and run the program, first  you have to install pip if you've never
+used python or pip before. Next, you have to use pip to install the virtual enviornment tools as well as
+all the packages that will be needed.
+Open the CMD in the project folder area and type:
+
+pip install -r requirements.txt
+
+this will install all the packages.
+Next, with your cmd still open in the project folder type:
+env\Scripts\activate
+
+this will turn on the virtual enviornment (to leave, type deactivate in the cmd)
+Now, to run the program just type server.py and a web browser window should open up!

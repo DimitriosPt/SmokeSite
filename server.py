@@ -1,5 +1,5 @@
 import requests
-from env import AIR_URL, API_KEY
+from env import AIR_URL, API_KEY, AIR_IP_URL
 
 from flask import Flask, send_from_directory, jsonify
 app = Flask(__name__)
@@ -13,6 +13,15 @@ def visual_air_api(latitude, longitude):
         LATITUDE=latitude,
         LONGITUDE=longitude,
         YOUR_API_KEY=API_KEY
+    ))
+    return response.text
+
+@app.route('/api.airvisual.com/v2/nearest_station?key={83yc73pHs93hEpSyo}')
+def visual_air_IP():
+
+    air_ip_url=AIR_IP_URL
+    response = requests.get(air_ip_url.format(
+        YOUR_API_KEY = API_KEY
     ))
     return response.text
 
