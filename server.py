@@ -16,7 +16,7 @@ def visual_air_api(latitude, longitude):
     ))
     return response.text
 
-@app.route('/api.airvisual.com/v2/nearest_station?key={83yc73pHs93hEpSyo}')
+@app.route('/api.airvisual.com/v2/nearest_station?key={API_KEY}')
 def visual_air_IP():
 
     air_ip_url=AIR_IP_URL
